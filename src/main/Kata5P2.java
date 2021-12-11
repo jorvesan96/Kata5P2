@@ -1,16 +1,19 @@
 package main;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import view.MailListReader;
+import view.MailListReaderBD;
 import model.Histogram;
+import model.Mail;
 import view.HistogramDisplay;
 import view.MailHistogramBuilder;
 
 public class Kata5P2 {
     
-    public List <String> mails;
-    Histogram<String> histo = new Histogram<>();
+    private List <String> mails = new ArrayList<>();
+    private Histogram<String> histo = new Histogram<>();
+    private HistogramDisplay  display;
     
     public static void main(String[] args) throws IOException, Exception {
         Kata5P2 kata = new Kata5P2();
@@ -24,17 +27,24 @@ public class Kata5P2 {
     
     
     private void input() throws IOException{
-        String fileName = "email.txt";
-        mails = MailListReader.obtainValidMail(fileName);
+        List<Mail> b = MailListReaderBD.read();
 
+        for (Mail mail : b) {
+            mails.add(mail.toString()); // NO LO PIDE EL PROFE (TOSTRING)
+        }
     }
      
     private void process()throws  IOException{
-        histo = MailHistogramBuilder.mailHistogram(mails);
+        List<Mail> c = new ArrayList<>();
+        for (String mail : mails) {
+            c.add(new Mail(mail));
+        }
+
+        histo = MailHistogramBuilder.build(c);
     }
     
     private void output(){
-        HistogramDisplay  display = new HistogramDisplay(histo);
+        display = new HistogramDisplay(histo);
         display.execute();
         
     }

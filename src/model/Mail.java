@@ -8,9 +8,6 @@ public class Mail {
         this.mail = mail;
     }
     
-    public String getEmail(){return mail;}    
-    
-    
     public String getDomain(){
         try{
             String[] domain = this.mail.split("@");
@@ -18,6 +15,11 @@ public class Mail {
         }catch(Exception e){
             return "";
         }
+    }
+    
+    @Override
+    public String toString(){
+        return mail;
     }
 
 }
